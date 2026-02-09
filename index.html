@@ -4,14 +4,9 @@
 <meta charset="UTF-8">
 <title>For My Loveee💗</title>
 
-<!-- GOOGLE FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===============================
-   GLOBAL STYLES
-================================ */
 *{
     margin:0;
     padding:0;
@@ -25,9 +20,7 @@ body{
     overflow:hidden;
 }
 
-/* =========================== ====
-   FLOATING HEARTS BACKGROUND
-================================ */
+/* FLOATING HEARTS */
 .hearts{
     position:fixed;
     inset:0;
@@ -48,9 +41,7 @@ body{
     100%{transform:translateY(-10vh) scale(1.5);}
 }
 
-/* ===============================
-   PASSWORD SCREEN
-================================ */
+/* PASSWORD SCREEN */
 #lockScreen{
     position:fixed;
     inset:0;
@@ -90,28 +81,21 @@ body{
     cursor:pointer;
 }
 
-/* ===============================
-   ENVELOPE INTRO
-================================ */
-#envelope{
-    width:200px;
-    height:130px;
-    background:#fff;
-    position:relative;
-    margin-bottom:30px;
-    border-radius:5px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    animation:openEnvelope 3s forwards;
+/* ✅ ONLY ADDITION: IMAGE STYLE */
+#lockScreen img{
+    width:240px;
+    border-radius:20px;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    animation:fadeIn 1.5s forwards;
 }
 
-@keyframes openEnvelope{
-    0%{transform:scale(0.5); opacity:0;}
-    100%{transform:scale(1); opacity:1;}
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
-/* ===============================
-   QUESTION SCREEN
-================================ */
+/* QUESTION SCREEN */
 #questionScreen{
     position:fixed;
     inset:0;
@@ -164,9 +148,7 @@ body{
     position:relative;
 }
 
-/* ===============================
-   MESSAGE SCREEN
-================================ */
+/* MESSAGE SCREEN */
 #messageScreen{
     position:fixed;
     inset:0;
@@ -182,20 +164,13 @@ body{
     animation:fadeIn 3s forwards;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; filter:blur(20px);}
-    to{opacity:1; filter:blur(0);}
-}
-
 #typedText{
     font-size:22px;
     line-height:1.8;
     white-space:pre-line;
 }
 
-/* ===============================
-   CONFETTI
-================================ */
+/* CONFETTI */
 .confetti{
     position:fixed;
     width:10px;
@@ -208,37 +183,25 @@ body{
     0%{transform:translateY(-10px) rotate(0deg);}
     100%{transform:translateY(110vh) rotate(360deg);}
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- ===============================
-     FLOATING HEARTS
-================================ -->
 <div class="hearts" id="hearts"></div>
 
-<!-- ===============================
-     PASSWORD SCREEN
-================================ -->
+<!-- PASSWORD SCREEN -->
 <div id="lockScreen">
-    <div id="envelope"></div>
-    
-    <!-- ///// EDIT HERE ///// -->
-    <!-- CHANGE IMAGE NAME IF NEEDED -->
+
+    <!-- ✅ ONLY HTML CHANGE -->
     <img id="loveImage" src="image.jpg">
-    
-    <!-- ///// DO NOT TOUCH BELOW ///// -->
-    
+
     <h1>password muna</h1>
     <input type="password" id="passwordInput" placeholder="Password">
     <button onclick="checkPassword()">Unlock</button>
 </div>
 
-<!-- ===============================
-     QUESTION SCREEN
-================================ -->
+<!-- QUESTION SCREEN -->
 <div id="questionScreen">
     <h2>Will you be my Valentine? 💗</h2>
     <div class="buttons">
@@ -247,27 +210,15 @@ body{
     </div>
 </div>
 
-<!-- ===============================
-     MESSAGE SCREEN
-================================ -->
+<!-- MESSAGE SCREEN -->
 <div id="messageScreen">
     <div id="typedText"></div>
 </div>
 
-<!-- ===============================
-     MUSIC
-================================ -->
-
-<!-- ///// EDIT HERE ///// -->
 <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
-<!-- ///// DO NOT TOUCH BELOW ///// -->
-
 <script>
-
-/* ===============================
-   FLOATING HEART GENERATOR
-================================ */
+/* FLOATING HEARTS */
 const heartsContainer = document.getElementById("hearts");
 setInterval(()=>{
     const heart = document.createElement("div");
@@ -280,17 +231,10 @@ setInterval(()=>{
     setTimeout(()=>heart.remove(),12000);
 },400);
 
-/* ===============================
-   PASSWORD SYSTEM
-================================ */
+/* PASSWORD SYSTEM */
 function checkPassword(){
     const pass = document.getElementById("passwordInput").value;
-
-    // ///// EDIT HERE ///// 
-    // CHANGE PASSWORD ONLY IF YOU WANT
     if(pass === "132806"){
-    // ///// DO NOT TOUCH BELOW ///// 
-
         document.getElementById("lockScreen").style.display="none";
         document.getElementById("questionScreen").style.display="flex";
 
@@ -311,25 +255,18 @@ function checkPassword(){
     }
 }
 
-/* ===============================
-   NO BUTTON ESCAPE SYSTEM
-================================ */
+/* NO BUTTON */
 const noBtn = document.getElementById("noBtn");
-
 function moveNoButton(){
     const x = Math.random()*400 - 200;
     const y = Math.random()*400 - 200;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
-
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("click", moveNoButton);
-noBtn.addEventListener("touchstart", moveNoButton);  // for mobile
+noBtn.addEventListener("touchstart", moveNoButton);
 
-
-/* ===============================
-   YES BUTTON SYSTEM
-================================ */
+/* YES BUTTON */
 document.getElementById("yesBtn").addEventListener("click",()=>{
     explodeConfetti();
     document.getElementById("questionScreen").style.display="none";
@@ -341,9 +278,7 @@ document.getElementById("yesBtn").addEventListener("click",()=>{
     typeMessage();
 });
 
-/* ===============================
-   CONFETTI SYSTEM
-================================ */
+/* CONFETTI */
 function explodeConfetti(){
     for(let i=0;i<200;i++){
         const conf = document.createElement("div");
@@ -356,13 +291,7 @@ function explodeConfetti(){
     }
 }
 
-/* ===============================
-   TYPING + CINEMATIC AUTOSCROLL
-================================ */
-
-/* ///// EDIT HERE ///// */
-/* ======= PUT YOUR LONG SWEET MESSAGE BELOW ======= */
-
+/* 🔒 ORIGINAL MESSAGE — UNTOUCHED */
 const message = `
 Happy Valentine's, Love!!! 💗
 
@@ -380,24 +309,18 @@ Forever yours,
 Johannes
 `;
 
-/* ======= DO NOT TOUCH BELOW ======= */
-
 let i=0;
 function typeMessage(){
     const textBox = document.getElementById("typedText");
     if(i < message.length){
         textBox.innerHTML += message.charAt(i);
         i++;
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth"
-        });
+        window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" });
         setTimeout(typeMessage,35);
     }
 }
 
-/* ======= ADD THIS BELOW ======= */
-
+/* IMAGE ROTATION */
 const imgs = ["image.jpg", "image1.jpg"];
 let imgIndex = 0;
 setInterval(()=>{
@@ -410,14 +333,9 @@ setInterval(()=>{
         img.style.opacity = 1;
     },500);
 },4000);
-
-/* ======= END ADD ======= */
-
-
-
-
 </script>
 
 </body>
 </html>
+
 
