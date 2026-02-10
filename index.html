@@ -11,7 +11,7 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Montserrat', sans-serif;
+    font-family:'Montserrat', sans-serif; /* default font */
 }
 
 body{
@@ -39,7 +39,7 @@ body{
     100%{transform:translateY(-10vh) scale(1.5);}
 }
 
-/* LOCK */
+/* LOCK SCREEN */
 #lockScreen{
     position:fixed;
     inset:0;
@@ -53,7 +53,7 @@ body{
 }
 
 #lockScreen h1{
-    font-family:'Great Vibes';
+    font-family:'Great Vibes'; /* password title still cursive */
     font-size:3rem;
     margin-bottom:20px;
 }
@@ -84,7 +84,7 @@ body{
     cursor:pointer;
 }
 
-/* QUESTION */
+/* QUESTION SCREEN */
 #questionScreen{
     position:fixed;
     inset:0;
@@ -95,12 +95,13 @@ body{
     text-align:center;
     color:white;
     z-index:5;
+    font-family:'Montserrat', sans-serif; /* make question screen legible */
 }
 
 #questionScreen h2{
-    font-family:'Great Vibes';
-    font-size:3rem;
+    font-size:2.5rem;
     margin-bottom:30px;
+    font-family:'Montserrat', sans-serif; /* override cursive */
 }
 
 .buttons{
@@ -128,7 +129,7 @@ body{
     color:#ff4f7a;
 }
 
-/* MESSAGE */
+/* MESSAGE SCREEN */
 #messageScreen{
     position:fixed;
     inset:0;
@@ -251,7 +252,7 @@ function explodeConfetti(){
     }
 }
 
-/* MESSAGE (UNTOUCHED) */
+/* PERSONAL MESSAGE */
 const message = `
 Happy Valentine's Day, Love!!! 💗
 
@@ -290,6 +291,7 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
 
 
