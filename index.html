@@ -141,6 +141,7 @@ body{
     background:#ff4f7a;
     color:white;
     box-shadow:0 0 20px rgba(255,79,122,0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #noBtn{
@@ -153,7 +154,7 @@ body{
 #messageScreen{
     position:fixed;
     inset:0;
-    background: radial-gradient(circle,#000,#111);
+    background: rgba(0,0,0,0.2); /* slightly dark overlay so hearts are visible */
     color:white;
     display:none;
     padding:40px;
@@ -249,10 +250,16 @@ function checkPassword(){
 }
 
 const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+let yesScale = 1; // initial scale for Yes button
+
 function moveNoButton(){
     const x = Math.random()*400 - 200;
     const y = Math.random()*400 - 200;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    yesScale += 0.1; // grow Yes button 10% bigger
+    yesBtn.style.transform = `scale(${yesScale})`;
 }
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("click", moveNoButton);
@@ -324,6 +331,7 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
 
 
