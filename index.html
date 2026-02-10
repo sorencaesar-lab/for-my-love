@@ -19,6 +19,7 @@ body{
     background: linear-gradient(120deg,#ff9a9e,#fad0c4);
     min-height:100vh;
     overflow:hidden;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><text y="24" font-size="24">❤</text></svg>') 16 16, auto;
 }
 
 /* FLOATING HEARTS */
@@ -154,7 +155,7 @@ body{
 #messageScreen{
     position:fixed;
     inset:0;
-    background: rgba(0,0,0,0.2); /* slightly dark overlay so hearts are visible */
+    background: rgba(0,0,0,0.2); /* hearts still visible */
     color:white;
     display:none;
     padding:40px;
@@ -170,6 +171,11 @@ body{
     font-size:22px;
     line-height:1.8;
     white-space:pre-line;
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.3s;
 }
 
 /* CONFETTI */
@@ -183,6 +189,21 @@ body{
 
 @keyframes fall{
     0%{transform:translateY(-10px) rotate(0deg);}
+    100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* FLOATING PETALS */
+.petal{
+    position:fixed;
+    top:-50px;
+    font-size:16px;
+    color: #ffb6c1;
+    z-index:2;
+    animation:petalFall linear infinite;
+}
+
+@keyframes petalFall{
+    0%{transform:translateY(-50px) rotate(0deg);}
     100%{transform:translateY(110vh) rotate(360deg);}
 }
 </style>
@@ -215,6 +236,8 @@ body{
 
 <script>
 const heartsContainer = document.getElementById("hearts");
+
+// floating hearts
 setInterval(()=>{
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -244,6 +267,9 @@ function checkPassword(){
                 clearInterval(fade);
             }
         },100);
+
+        // start floating petals
+        startPetals();
     }else{
         alert("ano? di mo alam kelan naging tayo? tantadohh");
     }
@@ -251,14 +277,14 @@ function checkPassword(){
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-let yesScale = 1; // initial scale for Yes button
+let yesScale = 1;
 
 function moveNoButton(){
     const x = Math.random()*400 - 200;
     const y = Math.random()*400 - 200;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    yesScale += 0.1; // grow Yes button 10% bigger
+    yesScale += 0.1; // grow Yes button
     yesBtn.style.transform = `scale(${yesScale})`;
 }
 noBtn.addEventListener("mouseover", moveNoButton);
@@ -288,6 +314,35 @@ function explodeConfetti(){
     }
 }
 
+// click hearts magic
+document.addEventListener("click", function(e){
+    const clickHeart = document.createElement("div");
+    clickHeart.classList.add("heart");
+    clickHeart.innerHTML = "❤";
+    clickHeart.style.left = e.clientX + "px";
+    clickHeart.style.top = e.clientY + "px";
+    clickHeart.style.fontSize = (Math.random()*20+10)+"px";
+    clickHeart.style.color = `hsl(${Math.random()*360},100%,70%)`;
+    heartsContainer.appendChild(clickHeart);
+    setTimeout(()=>clickHeart.remove(),1500);
+});
+
+// floating petals
+function startPetals(){
+    setInterval(()=>{
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.style.left = Math.random()*100+"vw";
+        petal.style.fontSize = (Math.random()*14+10)+"px";
+        petal.style.animationDuration = (Math.random()*5+5)+"s";
+        petal.style.opacity = Math.random()*0.7+0.3;
+        petal.innerHTML = "🌹";
+        document.body.appendChild(petal);
+        setTimeout(()=>petal.remove(),10000);
+    },500);
+}
+
+// type message
 const message = `
 Happy Valentine's Day, Love!!! 💗
 
@@ -312,6 +367,15 @@ function typeMessage(){
         i++;
         window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" });
         setTimeout(typeMessage,35);
+
+        // end-of-message surprise
+        if(i === message.length){
+            explodeConfetti();
+            const typedText = document.getElementById("typedText");
+            typedText.style.transition = "transform 0.5s";
+            typedText.style.transform = "scale(1.05)";
+            setTimeout(()=>typedText.style.transform="scale(1)",500);
+        }
     }
 }
 
@@ -331,6 +395,7 @@ setInterval(()=>{
 
 </body>
 </html>
+
 
 
 
