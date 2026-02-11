@@ -122,7 +122,9 @@ body{
 }
 
 /* QUESTION SCREEN */
-#questionScreen{
+#questionScreen,
+#togetherScreen,
+#lastScreen{
     position:fixed;
     inset:0;
     display:none;
@@ -134,7 +136,9 @@ body{
     z-index:5;
 }
 
-#questionScreen h2{
+#questionScreen h2,
+#togetherScreen h2,
+#lastScreen h2{
     font-size:2.5rem;
     margin-bottom:30px;
 }
@@ -153,13 +157,13 @@ body{
     transition:0.3s;
 }
 
-#yesBtn, #yesBtn2, #yesBtn3{
+#yesBtn,#yesBtn2,#yesBtn3{
     background:#ff4f7a;
     color:white;
     box-shadow:0 0 20px rgba(255,79,122,0.7);
 }
 
-#noBtn, #noBtn2, #noBtn3{
+#noBtn,#noBtn2,#noBtn3{
     background:white;
     color:#ff4f7a;
 }
@@ -191,6 +195,7 @@ body{
     background:#ff4f7a;
     color:white;
     cursor:pointer;
+    display:none;
 }
 
 /* CONFETTI */
@@ -211,7 +216,7 @@ body{
 
 <body>
 
-<!-- COUNTDOWN SCREEN -->
+<!-- COUNTDOWN -->
 <div id="countdownScreen">
     <h2>Countdown to Valentine's Day 💗</h2>
     <div id="countdownTimer"></div>
@@ -221,6 +226,7 @@ body{
 
 <div class="hearts" id="hearts"></div>
 
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
     <img id="loveImage" src="image.jpg">
     <h1>password muna</h1>
@@ -228,6 +234,7 @@ body{
     <button onclick="checkPassword()">Unlock</button>
 </div>
 
+<!-- QUESTION SCREEN 1 -->
 <div id="questionScreen">
     <h2>gusto mo ba mabasa letter? pindutin mo muna yung no para di sayang effort ko hehe</h2>
     <div class="buttons">
@@ -236,12 +243,14 @@ body{
     </div>
 </div>
 
+<!-- MESSAGE SCREEN -->
 <div id="messageScreen">
     <div id="typedText"></div>
-    <button id="doneBtn">Done</button>
+    <button id="doneBtn">DONE</button>
 </div>
 
-<div id="finalScreen">
+<!-- QUESTION SCREEN 2: TOGETHER FOREVER -->
+<div id="togetherScreen">
     <h2>Together Forever?</h2>
     <div class="buttons">
         <button id="yesBtn2" class="btn">Yes 💗</button>
@@ -249,11 +258,12 @@ body{
     </div>
 </div>
 
+<!-- LAST SCREEN -->
 <div id="lastScreen">
     <h2>CHUCHUPAIN MO KO FOREVER?</h2>
     <div class="buttons">
-        <button id="yesBtn3" class="btn">YESSSS ARAW ARAW!!!</button>
-        <button id="noBtn3" class="btn">NO</button>
+        <button id="yesBtn3" class="btn">YESSSSS ARAW ARAW!!!</button>
+        <button id="noBtn3" class="btn">No</button>
     </div>
 </div>
 
@@ -265,23 +275,22 @@ const countdownScreen = document.getElementById("countdownScreen");
 const countdownTimer = document.getElementById("countdownTimer");
 const valentineGreeting = document.getElementById("valentineGreeting");
 const continueText = document.getElementById("continueText");
-const targetDate = new Date(new Date().getFullYear(), 1, 14, 0, 0, 0);
 
+const targetDate = new Date(new Date().getFullYear(), 1, 14, 0, 0, 0);
 const countdownInterval = setInterval(()=>{
     const now = new Date();
     const diff = targetDate - now;
 
-    if(diff <= 0){
+    if(diff <=0){
         clearInterval(countdownInterval);
         countdownTimer.innerHTML = "00d 00h 00m 00s";
         valentineGreeting.style.opacity = "1";
         explodeConfetti();
-        continueText.style.display = "block";
+        continueText.style.display="block";
 
         countdownScreen.addEventListener("click", ()=>{
-            countdownScreen.style.display = "none";
+            countdownScreen.style.display="none";
         }, {once:true});
-
         return;
     }
 
@@ -318,17 +327,17 @@ function checkPassword(){
             bgMusic.volume=v;
             if(v>=1) clearInterval(fade);
         },100);
-    } else alert("ano? di mo alam kelan naging tayo? tantadohh");
+    }else alert("ano? di mo alam kelan naging tayo? tantadohh");
 }
 
-/* NO + YES GROW */
+/* NO + YES move/grow */
 let scale=1;
-function moveNo(){ noBtn.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale+=0.12; yesBtn.style.transform=`scale(${scale})`; }
+function moveNo(){ noBtn.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale+=0.12; yesBtn.style.transform=`scale(${scale})`;}
 noBtn.addEventListener("mouseover",moveNo);
 noBtn.addEventListener("click",moveNo);
 noBtn.addEventListener("touchstart",moveNo);
 
-/* YES */
+/* YES - Show message */
 yesBtn.onclick=()=>{
     explodeConfetti();
     questionScreen.style.display="none";
@@ -338,41 +347,7 @@ yesBtn.onclick=()=>{
     typeMessage();
 };
 
-/* DONE BUTTON AFTER MESSAGE */
-doneBtn.onclick = ()=>{
-    messageScreen.style.display="none";
-    finalScreen.style.display="flex";
-};
-
-/* FINAL SCREEN LOGIC */
-let scale2=1;
-function moveNo2(){ noBtn2.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale2+=0.12; yesBtn2.style.transform=`scale(${scale2})`; }
-noBtn2.addEventListener("mouseover",moveNo2);
-noBtn2.addEventListener("click",moveNo2);
-noBtn2.addEventListener("touchstart",moveNo2);
-
-yesBtn2.onclick = ()=>{
-    explodeConfetti();
-    finalScreen.style.display="none";
-    lastScreen.style.display="flex";
-};
-
-/* LAST SCREEN LOGIC */
-let scale3=1;
-function moveNo3(){ noBtn3.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale3+=0.12; yesBtn3.style.transform=`scale(${scale3})`; }
-noBtn3.addEventListener("mouseover",moveNo3);
-noBtn3.addEventListener("click",moveNo3);
-noBtn3.addEventListener("touchstart",moveNo3);
-
-yesBtn3.onclick = ()=>{
-    alert("ETO NAAAAA");
-};
-
-noBtn3.onclick = ()=>{
-    alert("ah so iba gusto mo? ok dun ka na tangina niyo");
-};
-
-/* CONFETTI FUNCTION */
+/* CONFETTI */
 function explodeConfetti(){
     for(let i=0;i<200;i++){
         const c=document.createElement("div");
@@ -393,11 +368,13 @@ rekta na agad sa message ko na gustong gusto mo palagi🫩
 
 di tayo nag uusap ngayon pero sana alam mo na wala akong ginagawang hindi mo magugustuhan. isa rin to sa dahilan kung bat ayoko mag sulat, inaaway mo ko e edi wala akong magawa duh. gusto ko lang sabihin sayo na sorry, sorry sa mga mali kong ginagawa sayo. sa pag mumura, sa pag di intindi sayo. oo pareho tayong may mali palagi pero nag sosorry ako para sa mga mali kong nagawa. hindi perpekto ang relasyon natin, maraming tampuhan, awayan, tiisan, at kung ano ano pa. pero sana, sa kabila ng mga yan e hindi tayo manawa sa isa't isa. mahal kita, at ayaw kitang mawala ng dahil lang sa di natin pagkakaunawaan. sana di ka rin mag sawa, sana lumaban ka rin hanggang dulo kasi parehas naman nating gusto na maging hanggang dulo, di ba? 
 
-syempre, di mawawala ang pasasalamat ko sayo. salamat sa araw araw na pag papasaya sakin. salamat sa pag aalaga, pag aasikaso, at pag paparamdam sakin na mahal mo talaga ako. di ko man lagi nasasabi sayo pero sobrang thankful ako na ikaw ang naging girlfriend ko. ibang iba ka sa ex ko. (alam kong tatanong mo kung pano ka naging iba sa ex ko pero bahala ka sa buhay mo, hindi kita sasagutin, basahin mo na lang.) siguro kung di ikaw naging girlfriend ko e palpak na naman e. kaya salamat ng marami sa pag bibigay sakin ng chance na maging tayo, sa paniniwala na kaya kitang mahalin ng todo. wag kang mag alala, di man tayo lagi magka sundo e hindi ako mag sasawang sabihin sayo na mahal kita. oo di ko man nasasabi araw araw pero eto, sinasabi ko na sayo, kahit sa mga oras na di tayo nag uusap tulad nito, kahit mag kaaway tayo, mahal na mahal pa rin kita.
+syempre, di mawawala ang pasasalamat ko sayo. salamat sa araw araw na pag papasaya sakin. salamat sa pag aalaga, pag aasikaso, at pag paparamdam sakin na mahal mo talaga ako. di ko man lagi nasasabi sayo pero sobrang thankful ako na ikaw ang naging girlfriend ko. ibang iba ka sa ex ko. (alam kong tatanong mo kung pano ka naging iba sa ex ko pero bahala ka sa buhay mo, hindi kita sasagutin, basahin mo na lang.) siguro kung di ikaw naging girlfriend ko e palpak na naman e. kaya salamat ng marami sa pag bibigay sakin ng chance na maging tayo, sa paniniwala na kaya kitang mahalin ng todo. wag kang mag alala, di man tayo lagi magka sundo e hindi ako mag sasawang sabihin sayo na mahal kita. oo di ko man nasasabi araw araw pero eto, sinasabi ko na sayo, kahit sa mga oras na di tayo nag uusap tulad nito, kahit mag kaaway tayo, mahal na mahal pa rin kita. 
 
-sana naappreciate mo to kahit simple lang at di hand-written hehe I love youuuu so muchhhh!!! Happy Valentine's ulit, Love!😘💗 
+sana naappreciate mo to kahit simple lang at di hand-written hehe I love youuuu so muchhhh!!!😘💗 
 
-Forever yours, 
+Happy Valentine's, Day ulit, Love!😘💗 
+
+Forever yours,
 Johannes
 `;
 
@@ -407,22 +384,49 @@ function typeMessage(){
         typedText.innerHTML+=message.charAt(i);
         i++;
         setTimeout(typeMessage,35);
+    } else {
+        doneBtn.style.display="inline-block";
     }
+}
+
+/* DONE button */
+const doneBtn = document.getElementById("doneBtn");
+doneBtn.onclick = ()=>{
+    messageScreen.style.display="none";
+    togetherScreen.style.display="flex";
+}
+
+/* TOGETHER FOREVER SCREEN */
+let scale2=1;
+function moveNo2(){ noBtn2.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale2+=0.12; yesBtn2.style.transform=`scale(${scale2})`;}
+noBtn2.onmouseover=noBtn2.ontouchstart=noBtn2.onclick=moveNo2;
+
+yesBtn2.onclick = ()=>{
+    explodeConfetti();
+    togetherScreen.style.display="none";
+    lastScreen.style.display="flex";
+}
+
+/* LAST SCREEN */
+let scale3=1;
+function moveNo3(){ noBtn3.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale3+=0.12; yesBtn3.style.transform=`scale(${scale3})`;}
+noBtn3.onmouseover=noBtn3.ontouchstart=moveNo3;
+
+noBtn3.onclick=()=>{ alert("ah so iba gusto mo? ok, tangina niyo"); }
+yesBtn3.onclick=()=>{
+    explodeConfetti();
+    alert("ETO NAAAA ISALAKSAK MOOOO");
 }
 
 /* IMAGE SWAP */
 const imgs=["image.jpg","image1.jpg"];
 let idx=0;
-setInterval(()=>{
-    if(loveImage){
-        idx=(idx+1)%imgs.length;
-        loveImage.src=imgs[idx];
-    }
-},4000);
-
+setInterval(()=>{ if(loveImage){ idx=(idx+1)%imgs.length; loveImage.src=imgs[idx]; } },4000);
 </script>
+
 </body>
 </html>
+
 
 
 
