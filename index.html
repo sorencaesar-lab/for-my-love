@@ -294,17 +294,25 @@ yesBtn2.onclick=()=>{
 };
 
 /* THIRD */
+/* THIRD */
 let scale3=1;
 function moveNo3(){
     noBtn3.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`;
     scale3+=0.12;
     yesBtn3.style.transform=`scale(${scale3})`;
 }
-noBtn3.onmouseover=noBtn3.onclick=noBtn3.ontouchstart=moveNo3;
+noBtn3.onmouseover=moveNo3;
+noBtn3.ontouchstart=moveNo3;
+
+noBtn3.onclick=()=>{
+    alert("nay iba siguro gusto mong chupain no? pakyu ka na lang kung ganun");
+};
 
 yesBtn3.onclick=()=>{
     explodeConfetti();
+    alert("ETO NA CHUPAIN MOOOO");
 };
+
 
 /* CONFETTI */
 function explodeConfetti(){
