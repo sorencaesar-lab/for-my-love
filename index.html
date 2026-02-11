@@ -153,13 +153,13 @@ body{
     transition:0.3s;
 }
 
-#yesBtn, #yesBtn2, #yesBtn3, #yesBtn4{
+#yesBtn, #yesBtn2, #yesBtn3{
     background:#ff4f7a;
     color:white;
     box-shadow:0 0 20px rgba(255,79,122,0.7);
 }
 
-#noBtn, #noBtn2, #noBtn3, #noBtn4{
+#noBtn, #noBtn2, #noBtn3{
     background:white;
     color:#ff4f7a;
 }
@@ -250,18 +250,10 @@ body{
 </div>
 
 <div id="lastScreen">
-    <h2>CHUPAIN MO KO FOREVER?</h2>
+    <h2>CHUCHUPAIN MO KO FOREVER?</h2>
     <div class="buttons">
         <button id="yesBtn3" class="btn">YESSSS ARAW ARAW!!!</button>
         <button id="noBtn3" class="btn">NO</button>
-    </div>
-</div>
-
-<div id="suboScreen">
-    <h2>Subo mo to forever?</h2>
-    <div class="buttons">
-        <button id="yesBtn4" class="btn">YESSSSS OF COURSEEE</button>
-        <button id="noBtn4" class="btn">NO</button>
     </div>
 </div>
 
@@ -347,7 +339,6 @@ yesBtn.onclick=()=>{
 };
 
 /* DONE BUTTON AFTER MESSAGE */
-const doneBtn = document.getElementById("doneBtn");
 doneBtn.onclick = ()=>{
     messageScreen.style.display="none";
     finalScreen.style.display="flex";
@@ -363,7 +354,7 @@ noBtn2.addEventListener("touchstart",moveNo2);
 yesBtn2.onclick = ()=>{
     explodeConfetti();
     finalScreen.style.display="none";
-    document.getElementById("lastScreen").style.display="flex";
+    lastScreen.style.display="flex";
 };
 
 /* LAST SCREEN LOGIC */
@@ -381,21 +372,6 @@ noBtn3.onclick = ()=>{
     alert("ah so iba gusto mo? ok dun ka na tangina niyo");
 };
 
-/* SUBO SCREEN LOGIC */
-let scale4=1;
-function moveNo4(){ noBtn4.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`; scale4+=0.12; yesBtn4.style.transform=`scale(${scale4})`; }
-noBtn4.addEventListener("mouseover",moveNo4);
-noBtn4.addEventListener("click",moveNo4);
-noBtn4.addEventListener("touchstart",moveNo4);
-
-yesBtn4.onclick = ()=>{
-    alert("ETO NAAAA");
-};
-
-noBtn4.onclick = ()=>{
-    alert("ah so iba gusto mo? ok");
-};
-
 /* CONFETTI FUNCTION */
 function explodeConfetti(){
     for(let i=0;i<200;i++){
@@ -411,16 +387,17 @@ function explodeConfetti(){
 
 /* PERSONAL MESSAGE */
 const message = `
-Happy Valentine's Day, Love!!! 💗
+Happy Valentine's Day, Love!!! 💗 
 
-rekta na agad sa message ko na gustong gusto mo palagi🫩
-di tayo nag uusap ngayon pero sana alam mo na wala akong ginagawang hindi mo magugustuhan. isa rin to sa dahilan kung bat ayoko mag sulat, inaaway mo ko e edi wala akong magawa duh. gusto ko lang sabihin sayo na sorry, sorry sa mga mali kong ginagawa sayo. sa pag mumura, sa pag di intindi sayo. oo pareho tayong may mali palagi pero nag sosorry ako para sa mga mali kong nagawa. hindi perpekto ang relasyon natin, maraming tampuhan, awayan, tiisan, at kung ano ano pa. pero sana, sa kabila ng mga yan e hindi tayo manawa sa isa't isa. mahal kita, at ayaw kitang mawala ng dahil lang sa di natin pagkakaunawaan. sana di ka rin mag sawa, sana lumaban ka rin hanggang dulo kasi parehas naman nating gusto na maging hanggang dulo, di ba?
+rekta na agad sa message ko na gustong gusto mo palagi🫩 
 
-syempre, di mawawala ang pasasalamat ko sayo. salamat sa araw araw na pag papasaya sakin. salamat sa pag aalaga, pag aasikaso, at pag paparamdam sakin na mahal mo talaga ako. di ko man lagi nasasabi sayo pero sobrang thankful ako na ikaw ang naging girlfriend ko. ibang iba ka sa ex ko. (alam kong tatanong mo kung pano ka naging iba sa ex ko pero bahala ka sa buhay mo, hindi kita sasagutin, basahin mo na lang.) siguro kung di ikaw naging girlfriend ko e palpak na naman e. kaya salamat ng marami sa pag bibigay sakin ng chance na maging tayo, sa paniniwala na kaya kitang mahalin ng todo. wag kang mag alala, di man tayo lagi magka sundo e hindi ako mag sasawang sabihin sayo na mahal kita. oo di ko man nasasabi araw araw pero eto, sinasabi ko na sayo, kahit sa mga oras na di tayo nag uusap tulad nito, kahit mag kaaway tayo, mahal na mahal pa rin kita. 
+di tayo nag uusap ngayon pero sana alam mo na wala akong ginagawang hindi mo magugustuhan. isa rin to sa dahilan kung bat ayoko mag sulat, inaaway mo ko e edi wala akong magawa duh. gusto ko lang sabihin sayo na sorry, sorry sa mga mali kong ginagawa sayo. sa pag mumura, sa pag di intindi sayo. oo pareho tayong may mali palagi pero nag sosorry ako para sa mga mali kong nagawa. hindi perpekto ang relasyon natin, maraming tampuhan, awayan, tiisan, at kung ano ano pa. pero sana, sa kabila ng mga yan e hindi tayo manawa sa isa't isa. mahal kita, at ayaw kitang mawala ng dahil lang sa di natin pagkakaunawaan. sana di ka rin mag sawa, sana lumaban ka rin hanggang dulo kasi parehas naman nating gusto na maging hanggang dulo, di ba? 
 
-sana naappreciate mo to kahit simple lang at di hand-written hehe I love youuuu so muchhhh!!! Happy Valentine's ulit, Love!😘💗
+syempre, di mawawala ang pasasalamat ko sayo. salamat sa araw araw na pag papasaya sakin. salamat sa pag aalaga, pag aasikaso, at pag paparamdam sakin na mahal mo talaga ako. di ko man lagi nasasabi sayo pero sobrang thankful ako na ikaw ang naging girlfriend ko. ibang iba ka sa ex ko. (alam kong tatanong mo kung pano ka naging iba sa ex ko pero bahala ka sa buhay mo, hindi kita sasagutin, basahin mo na lang.) siguro kung di ikaw naging girlfriend ko e palpak na naman e. kaya salamat ng marami sa pag bibigay sakin ng chance na maging tayo, sa paniniwala na kaya kitang mahalin ng todo. wag kang mag alala, di man tayo lagi magka sundo e hindi ako mag sasawang sabihin sayo na mahal kita. oo di ko man nasasabi araw araw pero eto, sinasabi ko na sayo, kahit sa mga oras na di tayo nag uusap tulad nito, kahit mag kaaway tayo, mahal na mahal pa rin kita.
 
-Forever yours,
+sana naappreciate mo to kahit simple lang at di hand-written hehe I love youuuu so muchhhh!!! Happy Valentine's ulit, Love!😘💗 
+
+Forever yours, 
 Johannes
 `;
 
@@ -446,6 +423,7 @@ setInterval(()=>{
 </script>
 </body>
 </html>
+
 
 
 
