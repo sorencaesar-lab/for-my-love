@@ -35,11 +35,11 @@ body{
 }
 
 @keyframes float{
-    0%{transform:translateY(100vh) scale(1);}
-    100%{transform:translateY(-10vh) scale(1.5);}
+    0%{transform:translateY(100vh);}
+    100%{transform:translateY(-10vh);}
 }
 
-/* COUNTDOWN SCREEN */
+/* COUNTDOWN */
 #countdownScreen{
     position:fixed;
     inset:0;
@@ -60,9 +60,20 @@ body{
 
 #valentineText{
     font-size:3rem;
-    margin-top:30px;
+    margin-top:20px;
     opacity:0;
-    transition:opacity 3s ease;
+    transition:opacity 2s ease;
+}
+
+#continueText{
+    margin-top:20px;
+    font-size:1.2rem;
+    display:none;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
 }
 
 /* SCREENS */
@@ -72,54 +83,17 @@ body{
 #lastScreen{
     position:fixed;
     inset:0;
-    display:flex;
+    display:none;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
     color:white;
+    z-index:10;
 }
 
 #lockScreen{
     background:linear-gradient(120deg,#ff758c,#ff7eb3);
-    display:none;
-}
-
-#questionScreen,
-#finalScreen,
-#lastScreen{
-    display:none;
-}
-
-#lockScreen h1{
-    font-size:3rem;
-    margin-bottom:20px;
-}
-
-#lockScreen img{
-    width:240px;
-    border-radius:20px;
-    margin-bottom:25px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.35);
-}
-
-#lockScreen input{
-    padding:12px 20px;
-    border-radius:25px;
-    border:none;
-    font-size:18px;
-    text-align:center;
-}
-
-#lockScreen button{
-    margin-top:15px;
-    padding:10px 30px;
-    border-radius:25px;
-    border:none;
-    background:white;
-    color:#ff4f7a;
-    font-weight:bold;
-    cursor:pointer;
 }
 
 h2{
@@ -138,25 +112,13 @@ h2{
     border:none;
     font-size:18px;
     cursor:pointer;
-    transition:0.3s;
-}
-
-#yesBtn,#yesBtn2,#yesBtn3{
-    background:#ff4f7a;
-    color:white;
-    box-shadow:0 0 20px rgba(255,79,122,0.7);
-}
-
-#noBtn,#noBtn2,#noBtn3{
-    background:white;
-    color:#ff4f7a;
 }
 
 /* MESSAGE */
 #messageScreen{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.88);
+    background:rgba(0,0,0,0.9);
     display:none;
     padding:40px;
     overflow-y:auto;
@@ -181,20 +143,6 @@ h2{
     cursor:pointer;
     display:none;
 }
-
-/* CONFETTI */
-.confetti{
-    position:fixed;
-    width:10px;
-    height:10px;
-    animation:fall 4s linear forwards;
-    z-index:1000;
-}
-
-@keyframes fall{
-    from{transform:translateY(-10px) rotate(0deg);}
-    to{transform:translateY(110vh) rotate(360deg);}
-}
 </style>
 </head>
 
@@ -206,13 +154,13 @@ h2{
     <h2>Countdown to Valentine's Day 💗</h2>
     <div id="timer"></div>
     <div id="valentineText">HAPPY VALENTINE'S DAY, LOVE!!💗</div>
+    <div id="continueText">Click anywhere to continue 💗</div>
 </div>
 
 <div id="lockScreen">
-    <img id="loveImage" src="image.jpg">
     <h1>password muna</h1>
     <input type="password" id="passwordInput" placeholder="Password">
-    <button onclick="checkPassword()">Unlock</button>
+    <button id="unlockBtn">Unlock</button>
 </div>
 
 <div id="questionScreen">
@@ -239,7 +187,7 @@ h2{
 <div id="lastScreen">
     <h2>chupain mo ko forever?</h2>
     <div class="buttons">
-        <button id="yesBtn3" class="btn">SUPERRRRRR YESSSSSSS😋😋😋🍆🍆🍆</button>
+        <button id="yesBtn3" class="btn">SUPERRRR YES 😋</button>
         <button id="noBtn3" class="btn">No</button>
     </div>
 </div>
@@ -248,94 +196,103 @@ h2{
 
 <script>
 
-/* HEARTS */
-const heartsContainer=document.getElementById("hearts");
-setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(Math.random()*20+10)+"px";
-    h.style.animationDuration=(Math.random()*5+5)+"s";
-    heartsContainer.appendChild(h);
-    setTimeout(()=>h.remove(),12000);
-},400);
+/* ELEMENTS */
+const countdownScreen=document.getElementById("countdownScreen");
+const timer=document.getElementById("timer");
+const valentineText=document.getElementById("valentineText");
+const continueText=document.getElementById("continueText");
+const lockScreen=document.getElementById("lockScreen");
+const questionScreen=document.getElementById("questionScreen");
+const messageScreen=document.getElementById("messageScreen");
+const finalScreen=document.getElementById("finalScreen");
+const lastScreen=document.getElementById("lastScreen");
+const unlockBtn=document.getElementById("unlockBtn");
+const passwordInput=document.getElementById("passwordInput");
+const bgMusic=document.getElementById("bgMusic");
+const typedText=document.getElementById("typedText");
+const doneBtn=document.getElementById("doneBtn");
 
 /* COUNTDOWN */
-const timer=document.getElementById("timer");
-const countdownScreen=document.getElementById("countdownScreen");
-const valentineText=document.getElementById("valentineText");
-const lockScreen=document.getElementById("lockScreen");
+const target=new Date(new Date().getFullYear(),1,14,0,0,0);
 
-function startCountdown(){
+const interval=setInterval(()=>{
     const now=new Date();
-    let target=new Date(now.getFullYear(),1,14,0,0,0);
+    const diff=target-now;
 
-    if(now>=target){
-        countdownScreen.style.display="none";
-        lockScreen.style.display="flex";
+    if(diff<=0){
+        clearInterval(interval);
+        timer.innerHTML="00d 00h 00m 00s";
+        valentineText.style.opacity=1;
+        continueText.style.display="block";
+
+        countdownScreen.addEventListener("click",()=>{
+            countdownScreen.style.display="none";
+            lockScreen.style.display="flex";
+        },{once:true});
+
         return;
     }
 
-    const interval=setInterval(()=>{
-        const current=new Date();
-        const diff=target-current;
+    const d=Math.floor(diff/(1000*60*60*24));
+    const h=Math.floor((diff/(1000*60*60))%24);
+    const m=Math.floor((diff/1000/60)%60);
+    const s=Math.floor((diff/1000)%60);
 
-        if(diff<=0){
-            clearInterval(interval);
-            timer.innerHTML="00d 00h 00m 00s";
-            explodeConfetti();
-            valentineText.style.opacity=1;
-
-            setTimeout(()=>{
-                valentineText.style.opacity=0;
-            },4000);
-
-            setTimeout(()=>{
-                countdownScreen.style.display="none";
-                lockScreen.style.display="flex";
-            },7000);
-
-            return;
-        }
-
-        const d=Math.floor(diff/(1000*60*60*24));
-        const h=Math.floor((diff/(1000*60*60))%24);
-        const m=Math.floor((diff/1000/60)%60);
-        const s=Math.floor((diff/1000)%60);
-
-        timer.innerHTML=`${d}d ${h}h ${m}m ${s}s`;
-    },1000);
-}
-
-startCountdown();
+    timer.innerHTML=`${d}d ${h}h ${m}m ${s}s`;
+},1000);
 
 /* PASSWORD */
-function checkPassword(){
+unlockBtn.addEventListener("click",()=>{
     if(passwordInput.value==="132806"){
         lockScreen.style.display="none";
         questionScreen.style.display="flex";
-        bgMusic.volume=0;
         bgMusic.play();
-        let v=0;
-        const fade=setInterval(()=>{
-            v+=0.02;
-            bgMusic.volume=v;
-            if(v>=1) clearInterval(fade);
-        },100);
-    }else alert("ano? di mo alam kelan naging tayo? tantadohh");
-}
+    }else{
+        alert("ano? di mo alam kelan naging tayo? tantadohh");
+    }
+});
 
-/* REST OF YOUR LOGIC REMAINS UNCHANGED */
-/* PERSONAL MESSAGE IS STILL EXACTLY THE SAME BELOW */
+/* BUTTONS WORKING */
+document.getElementById("yesBtn").onclick=()=>{
+    questionScreen.style.display="none";
+    messageScreen.style.display="block";
+    typeMessage();
+};
 
-const message = `
+document.getElementById("noBtn").onclick=()=>{
+    alert("Sure ka? 😏");
+};
+
+doneBtn.onclick=()=>{
+    messageScreen.style.display="none";
+    finalScreen.style.display="flex";
+};
+
+document.getElementById("yesBtn2").onclick=()=>{
+    finalScreen.style.display="none";
+    lastScreen.style.display="flex";
+};
+
+document.getElementById("noBtn2").onclick=()=>{
+    alert("Ay bawal yan 😌");
+};
+
+document.getElementById("yesBtn3").onclick=()=>{
+    alert("ETO NA CHUPAIN MOOOO");
+};
+
+document.getElementById("noBtn3").onclick=()=>{
+    alert("nay iba siguro gusto mong chupain no? pakyu ka na lang kung ganun");
+};
+
+/* MESSAGE (UNCHANGED) */
+const message=`
 
 Happy Valentine's Day, Love!!! 💗
 
 rekta na agad sa message ko na gustong gusto mo palagi🫩
 di tayo nag uusap ngayon pero sana alam mo na wala akong ginagawang hindi mo magugustuhan...
-...
+
 Forever yours,
 Johannes
 `;
@@ -346,26 +303,15 @@ function typeMessage(){
         typedText.innerHTML+=message.charAt(i);
         i++;
         setTimeout(typeMessage,35);
-    } else {
+    }else{
         doneBtn.style.display="inline-block";
-    }
-}
-
-function explodeConfetti(){
-    for(let i=0;i<200;i++){
-        const c=document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*100+"vw";
-        c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-        c.style.animationDuration=(Math.random()*3+2)+"s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),5000);
     }
 }
 
 </script>
 </body>
 </html>
+
 
 
 
